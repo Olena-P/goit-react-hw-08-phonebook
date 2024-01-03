@@ -31,24 +31,72 @@ const ContactForm = () => {
         const isExist = contacts.some(
           (contact) => contact.name.toLowerCase() === values.name.toLowerCase()
         );
-        console.log(isExist);
 
         if (isExist) {
           actions.resetForm();
-          return alert(`${values.name} is alredy in contacts.`);
+          return alert(`${values.name} is already in contacts.`);
         }
         dispatch(addContact(values));
         actions.resetForm();
       }}
     >
-      <Form>
-        <Field type="text" name="name" placeholder="Name" />
-        <ErrorMessage name="name" component="div" style={{ color: "red" }} />
+      <Form
+        style={{
+          maxWidth: "300px",
+          margin: "auto",
+          padding: "20px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          borderRadius: "8px",
+          backgroundColor: "#ffffff",
+        }}
+      >
+        <Field
+          type="text"
+          name="name"
+          placeholder="Name"
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginBottom: "10px",
+            boxSizing: "border-box",
+          }}
+        />
+        <ErrorMessage
+          name="name"
+          component="div"
+          style={{ color: "red", marginBottom: "10px" }}
+        />
 
-        <Field type="tel" name="number" placeholder="Number" />
-        <ErrorMessage name="number" component="div" style={{ color: "red" }} />
+        <Field
+          type="tel"
+          name="number"
+          placeholder="Number"
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginBottom: "20px",
+            boxSizing: "border-box",
+          }}
+        />
+        <ErrorMessage
+          name="number"
+          component="div"
+          style={{ color: "red", marginBottom: "20px" }}
+        />
 
-        <button type="submit">Add contact</button>
+        <button
+          type="submit"
+          style={{
+            background: "#007bff",
+            color: "white",
+            padding: "10px",
+            cursor: "pointer",
+            borderRadius: "5px",
+            border: "none",
+          }}
+        >
+          Add contact
+        </button>
       </Form>
     </Formik>
   );

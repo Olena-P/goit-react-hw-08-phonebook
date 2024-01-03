@@ -1,7 +1,8 @@
+import React from "react";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/auth/operations";
 
-export const LoginForm = () => {
+const LoginForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -20,14 +21,26 @@ export const LoginForm = () => {
     <form
       onSubmit={handleSubmit}
       autoComplete="off"
-      style={{ maxWidth: "300px", margin: "auto" }}
+      style={{
+        maxWidth: "300px",
+        margin: "auto",
+        padding: "20px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+        borderRadius: "8px",
+        backgroundColor: "#ffffff",
+      }}
     >
       <label style={{ display: "block", marginBottom: "10px" }}>
         Email
         <input
           type="email"
           name="email"
-          style={{ width: "100%", padding: "5px" }}
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginBottom: "10px",
+            boxSizing: "border-box",
+          }}
         />
       </label>
       <label style={{ display: "block", marginBottom: "10px" }}>
@@ -35,7 +48,12 @@ export const LoginForm = () => {
         <input
           type="password"
           name="password"
-          style={{ width: "100%", padding: "5px" }}
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginBottom: "20px",
+            boxSizing: "border-box",
+          }}
         />
       </label>
       <button
@@ -43,8 +61,10 @@ export const LoginForm = () => {
         style={{
           background: "#28a745",
           color: "white",
-          padding: "8px 10px",
+          padding: "10px",
           cursor: "pointer",
+          borderRadius: "5px",
+          border: "none",
         }}
       >
         Log In
@@ -52,3 +72,5 @@ export const LoginForm = () => {
     </form>
   );
 };
+
+export default LoginForm;
