@@ -2,7 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // Utility to add JWT
 const setAuthHeader = token => {
   const headers = new Headers();
-  headers.append('Authorization', `Bearer ${token}`);
+  if (token) {
+    headers.append('Authorization', `Bearer ${token}`);
+  }
   return headers;
 };
 
@@ -47,6 +49,7 @@ export const register = createAsyncThunk(
  * POST @ /users/login
  * body: { email, password }
  */
+
 export const logIn = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
@@ -57,6 +60,7 @@ export const logIn = createAsyncThunk(
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            ...setAuthHeader(localStorage.getItem('authToken')),
           },
           body: JSON.stringify(credentials),
         }
@@ -68,7 +72,11 @@ export const logIn = createAsyncThunk(
       }
 
       const data = await response.json();
-      setAuthHeader(data.token);
+      const token = data.token;
+
+      if (token) {
+        localStorage.setItem('authToken', token);
+      }
 
       return data;
     } catch (error) {

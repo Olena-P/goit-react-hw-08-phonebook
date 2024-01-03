@@ -3,8 +3,8 @@ import { register, logIn, logOut, refreshUser } from './operations';
 
 const initialState = {
   user: { name: null, email: null },
-  token: null,
-  isLoggedIn: false,
+  token: localStorage.getItem('authToken') || null,
+  isLoggedIn: Boolean(localStorage.getItem('authToken')),
   isRefreshing: false,
 };
 
@@ -27,6 +27,8 @@ const authSlice = createSlice({
         state.user = { name: null, email: null };
         state.token = null;
         state.isLoggedIn = false;
+
+        localStorage.removeItem('authToken');
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
