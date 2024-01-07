@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../redux/auth/operations";
+import { logout } from "../../redux/auth/operations";
 import { useAuth } from "hooks";
 
 const UserMenu = () => {
@@ -22,7 +22,7 @@ const UserMenu = () => {
       </p>
       <button
         type="button"
-        onClick={() => dispatch(logOut())}
+        onClick={() => dispatch(logout())}
         style={{
           background: "#dc3545",
           color: "white",

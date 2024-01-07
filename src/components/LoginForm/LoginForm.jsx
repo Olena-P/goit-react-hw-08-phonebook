@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../redux/auth/operations";
+import { login } from "../../redux/auth/operations";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const LoginForm = () => {
     e.preventDefault();
     const form = e.currentTarget;
     dispatch(
-      logIn({
+      login({
         email: form.elements.email.value,
         password: form.elements.password.value,
       })

@@ -29,7 +29,7 @@ export const Navigation = () => {
       </NavLink>
       {isLoggedIn && (
         <NavLink
-          to="/Contacts"
+          to="/contacts"
           style={{
             color: "white",
             fontSize: "18px",

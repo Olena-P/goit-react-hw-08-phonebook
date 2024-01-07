@@ -5,7 +5,7 @@ export const fetchContacts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await fetch(
-        'https://6575bebeb2fbb8f6509d746e.mockapi.io/contacts'
+        'https://connections-api.herokuapp.com/contacts'
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -23,7 +23,7 @@ export const addContact = createAsyncThunk(
   async ({ name, number }, thunkAPI) => {
     try {
       const response = await fetch(
-        'https://6575bebeb2fbb8f6509d746e.mockapi.io/contacts',
+        'https://connections-api.herokuapp.com/contacts',
         {
           method: 'POST',
           headers: {
@@ -47,10 +47,10 @@ export const addContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (id, thunkAPI) => {
+  async (contactId, thunkAPI) => {
     try {
       const response = await fetch(
-        `https://6575bebeb2fbb8f6509d746e.mockapi.io/contacts/${id}`,
+        `https://connections-api.herokuapp.com/contacts/${contactId}`,
         {
           method: 'DELETE',
         }
@@ -60,7 +60,7 @@ export const deleteContact = createAsyncThunk(
         throw new Error('Network response was not ok');
       }
 
-      return id;
+      return contactId;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
     }

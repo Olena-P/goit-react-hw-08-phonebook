@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-// Utility to add JWT
+
 const setAuthHeader = token => {
   const headers = new Headers();
   if (token) {
@@ -8,15 +8,10 @@ const setAuthHeader = token => {
   return headers;
 };
 
-// Utility to remove JWT
 const clearAuthHeader = () => new Headers();
 
-/*
- * POST @ /users/signup
- * body: { name, email, password }
- */
-export const register = createAsyncThunk(
-  'auth/register',
+export const signup = createAsyncThunk(
+  'auth/signup',
   async (credentials, thunkAPI) => {
     try {
       const response = await fetch(
@@ -45,12 +40,7 @@ export const register = createAsyncThunk(
   }
 );
 
-/*
- * POST @ /users/login
- * body: { email, password }
- */
-
-export const logIn = createAsyncThunk(
+export const login = createAsyncThunk(
   'auth/login',
   async (credentials, thunkAPI) => {
     try {
@@ -85,42 +75,30 @@ export const logIn = createAsyncThunk(
   }
 );
 
-/*
- * POST @ /users/logout
- * headers: Authorization: Bearer token
- */
-export const logOut = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await fetch('https://connections-api.herokuapp.com/users/logout', {
       method: 'POST',
       headers: clearAuthHeader(),
     });
-    // After a successful logout, remove the token from the HTTP header
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-/*
- * GET @ /users/current
- * headers: Authorization: Bearer token
- */
-export const refreshUser = createAsyncThunk(
-  'auth/refresh',
+export const getCurrentUser = createAsyncThunk(
+  'auth/current',
   async (_, thunkAPI) => {
-    // Reading the token from the state via getState()
     const state = thunkAPI.getState();
     const persistedToken = state.auth.token;
 
     if (persistedToken === null) {
-      // If there is no token, exit without performing any request
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
 
     try {
-      // If there is a token, add it to the HTTP header and perform the request
       const response = await fetch(
-        'https://connections-api.herokuapp.com/users/me',
+        'https://connections-api.herokuapp.com/users/current',
         {
           method: 'GET',
           headers: setAuthHeader(persistedToken),
