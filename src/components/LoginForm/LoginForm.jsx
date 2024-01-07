@@ -1,19 +1,23 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/auth/operations";
+import { getCurrentUser } from "../../redux/auth/operations";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    dispatch(
+    await dispatch(
       login({
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
     );
+
+    dispatch(getCurrentUser());
+
     form.reset();
   };
 
