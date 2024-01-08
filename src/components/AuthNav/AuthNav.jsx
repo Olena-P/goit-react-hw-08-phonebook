@@ -14,7 +14,6 @@ const AuthNav = () => {
           color: "white",
           cursor: "pointer",
         }}
-        activeStyle={{ background: "#0056b3" }}
       >
         Register
       </NavLink>
@@ -28,7 +27,6 @@ const AuthNav = () => {
           color: "white",
           cursor: "pointer",
         }}
-        activeStyle={{ background: "#218838" }}
       >
         Log In
       </NavLink>

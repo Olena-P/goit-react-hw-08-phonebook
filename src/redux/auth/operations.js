@@ -8,8 +8,6 @@ const setAuthHeader = token => {
   return headers;
 };
 
-const clearAuthHeader = () => new Headers();
-
 export const signup = createAsyncThunk(
   'auth/signup',
   async (credentials, thunkAPI) => {
@@ -77,9 +75,14 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
+    const state = thunkAPI.getState();
+    const persistedToken = state.auth.token;
+
     await fetch('https://connections-api.herokuapp.com/users/logout', {
       method: 'POST',
-      headers: clearAuthHeader(),
+      headers: {
+        Authorization: `Bearer ${persistedToken}`,
+      },
     });
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
