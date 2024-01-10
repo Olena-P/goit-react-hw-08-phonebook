@@ -29,8 +29,6 @@ export const signup = createAsyncThunk(
       }
 
       const data = await response.json();
-      setAuthHeader(data.token);
-
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -48,7 +46,6 @@ export const login = createAsyncThunk(
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            ...setAuthHeader(localStorage.getItem('authToken')),
           },
           body: JSON.stringify(credentials),
         }
@@ -60,12 +57,6 @@ export const login = createAsyncThunk(
       }
 
       const data = await response.json();
-      const token = data.token;
-
-      if (token) {
-        localStorage.setItem('authToken', token);
-      }
-
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -75,15 +66,12 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
-
     await fetch('https://connections-api.herokuapp.com/users/logout', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${persistedToken}`,
-      },
+      headers: setAuthHeader(localStorage.getItem('authToken')),
     });
+    localStorage.removeItem('authToken');
+    return {};
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -95,7 +83,7 @@ export const getCurrentUser = createAsyncThunk(
     const state = thunkAPI.getState();
     const persistedToken = state.auth.token;
 
-    if (persistedToken === null) {
+    if (!persistedToken) {
       return thunkAPI.rejectWithValue('Unable to fetch user');
     }
 
